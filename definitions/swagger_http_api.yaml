@@ -27,9 +27,7 @@ paths:
         arch: x86_64
         preserve: 0
         upload-ignore:
-          - iam/*
-          - utils/*
-          - scripts/*
+          - tests/*
         handler: application.services.service1.lambda_handlers.status_handler
         layers:
           - type: python-requirements
@@ -47,9 +45,7 @@ paths:
         name: "lambda-demo-func-get-user"
         runtime: python3.8
         upload-ignore:
-          - iam/*
-          - utils/*
-          - scripts/*
+          - tests/*
         handler: application.services.service2.lambda_handlers.user_handler
         role-name: "Lambda-General-Execution-Role"
       parameters:
