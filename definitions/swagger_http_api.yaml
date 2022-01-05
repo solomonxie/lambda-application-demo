@@ -25,6 +25,7 @@ paths:
         name: "lambda-demo-func-get-status"
         runtime: python3.8
         arch: x86_64
+        preserve: 0
         upload-ignore:
           - iam/*
           - utils/*
