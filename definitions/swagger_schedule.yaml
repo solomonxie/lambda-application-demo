@@ -1,3 +1,5 @@
+swagger: "2.0"
+
 info:
   title: Scheduled Task
   description: Simple script executed like Cronjob
@@ -22,7 +24,7 @@ x-lambda:
       - scripts/*
 
 
-schedules:
+x-schedules:
   schedule1:
     name: 'demo-schedule-001'
     cron: "rate(1 day)"
