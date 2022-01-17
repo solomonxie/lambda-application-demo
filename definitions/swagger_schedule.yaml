@@ -3,6 +3,7 @@ swagger: "2.0"
 info:
   title: Scheduled Task
   description: Simple script executed like Cronjob
+  version: 1.0.0
 
 x-app-info:
   type: AWS::EventBridge::Rule
