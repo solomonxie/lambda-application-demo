@@ -79,9 +79,11 @@ x-schedules:
     x-lambda-name: "lambda-demo-periodic-run"
 
 # ======== STEP FUNCTION: STATE MACHINE ==============
-# x-step-func:
-#   state-machine:
-#     path: ./state_machine.json
+x-step-func:
+  machine1:
+    name: my-state-01
+    definition-path: ./definitions/state_machine1.json
+    role-name: "Stepfunc-General-Execution-Role"
 
 
 #######################################################################
