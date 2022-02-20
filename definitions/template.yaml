@@ -1,6 +1,5 @@
-swagger: "2.0"
+serverless-framework-version: "1.0"
 
-# ========= APPLICATION LEVEL INFO ==============
 info:
   title: My Application
   description: Description in Markdown.
@@ -108,9 +107,8 @@ resources:
 
 
 
-#######################################################################
-#                    SWAGGER STANDARD DEFINITIONS                     #
-#######################################################################
+# SWAGGER / OPEN-API DEFINITIONS
+# VERIFY AT: https://editor.swagger.io
 swagger-definition:
   swagger: "2.0"
   info:
