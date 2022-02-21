@@ -1,4 +1,4 @@
-serverless-framework-version: "1.0"
+serverless-framework-version: "0.2"
 
 info:
   title: My Application
@@ -32,6 +32,21 @@ services:
 
 
 resources:
+  iam:
+    roles:
+      stepfunc-ro1:
+        policy: stepfunc-po1
+        event-source: stepfunc
+      lambda-ro-2:
+        policy: lambda-exe-po2
+        event-source: lambda
+    policies:
+      stepfunc-po1:
+        path: ./definitions/iam-step-func-general-execution-policy.json
+      lambda-exe-po2:
+        path: ./definitions/iam-lambda-general-execution-policy.json
+      lambda-log-po3:
+        path: ./definitions/iam-lambda-general-logging-policy.json
   cronjobs:
     demo-schedule-001:
       cron: "rate(1 day)"
@@ -46,13 +61,13 @@ resources:
   step-func:
     my-state-01:
       definition-path: ./definitions/state_machine1.json
-      role-name: "Stepfunc-General-Execution-Role"
+      role-name: "stepfunc-ro1"
   lambda:
     - name: "lambda-demo-func-get-status"
       runtime: python3.8
       arch: x86_64
       handler: application.services.service1.lambda_handlers.status_handler
-      role-name: "Lambda-General-Execution-Role"
+      role-name: "lambda-ro-2"
       layers:
         - type: python-requirements
           manifest: ./application/services/service1/requirements.txt
@@ -63,7 +78,7 @@ resources:
     - name: "lambda-demo-func-get-user"
       runtime: python3.8
       handler: application.services.service2.lambda_handlers.user_handler
-      role-name: "Lambda-General-Execution-Role"
+      role-name: "lambda-ro-2"
       upload-ignore:
         - iam/*
         - utils/*
@@ -72,7 +87,7 @@ resources:
       runtime: python3.8
       arch: x86_64
       handler: application.services.service3.lambda_handlers.handler
-      role-name: "Lambda-General-Execution-Role"
+      role-name: "lambda-ro-2"
       layers:
         - type: python-requirements
           manifest: ./application/services/service3/requirements.txt
@@ -84,7 +99,7 @@ resources:
       runtime: python3.8
       arch: x86_64
       handler: application.services.service4.lambda_handlers.handler
-      role-name: "Lambda-General-Execution-Role"
+      role-name: "lambda-ro-2"
       layers:
         - type: python-requirements
           manifest: ./application/services/service4/requirements.txt
@@ -96,7 +111,7 @@ resources:
       runtime: python3.8
       arch: x86_64
       handler: application.services.service4.lambda_handlers.handler
-      role-name: "Lambda-General-Execution-Role"
+      role-name: "lambda-ro-2"
       layers:
         - type: python-requirements
           manifest: ./application/services/service4/requirements.txt
