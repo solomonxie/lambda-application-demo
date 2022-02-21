@@ -99,7 +99,7 @@ resources:
       runtime: python3.8
       arch: x86_64
       handler: application.services.service4.lambda_handlers.handler
-      role-name: "lambda-ro-2"
+      role-name: "stepfunc-ro1"
       layers:
         - type: python-requirements
           manifest: ./application/services/service4/requirements.txt
@@ -111,7 +111,7 @@ resources:
       runtime: python3.8
       arch: x86_64
       handler: application.services.service4.lambda_handlers.handler
-      role-name: "lambda-ro-2"
+      role-name: "stepfunc-ro1"
       layers:
         - type: python-requirements
           manifest: ./application/services/service4/requirements.txt
