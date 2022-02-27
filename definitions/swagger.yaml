@@ -10,7 +10,7 @@ paths:
   /status:
     get:
       summary: status check
-      x-lambda-name: "lambda-demo-func-get-status"
+      x-lambda-name: "func-get-status"
       responses:
         "200":
           description: OK
@@ -19,7 +19,7 @@ paths:
       summary: Returns a user by ID.
       x-api-authorizer:
         type: AWS_IAM
-      x-lambda-name: "lambda-demo-func-get-user"
+      x-lambda-name: "func-get-user"
       parameters:
         - in: query
           name: user_id
