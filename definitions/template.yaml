@@ -10,7 +10,7 @@ info:
 services:
   rest-api:
     type: AWS::ApiGateway::RestApi
-    name: "demo-rest-api-2"
+    name: "demo-rest-api"
     swagger-path: ./definitions/swagger.yaml
     throttling:
       rate-limit: 100
@@ -19,8 +19,8 @@ services:
       - 1234
       - 5678
   http-api:
-    type: AWS::ApiGateway::RestApi
-    name: "demo-rest-api-2"
+    type: AWS::ApiGateway::HttpApi
+    name: "demo-http-api"
     swagger-path: ./definitions/swagger.yaml
     throttling:
       rate-limit: 100
@@ -36,11 +36,11 @@ services:
 resources:
   schedule:
     - name: "demo-schedule-001"
-      cron: "rate(1 day)"
+      cron: "rate(1 minute)"
       target-type: "lambda"
       target-name: "func-periodic-run"
     - name: "demo-schedule-002"
-      cron: "rate(1 day)"
+      cron: "rate(1 minute)"
       target-type: "stepfunc"
       target-name: "my-state-01"
   stepfunc:
