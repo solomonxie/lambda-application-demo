@@ -5,6 +5,7 @@ info:
   description: Description in Markdown.
   version: 1.0.0
   repo_path: "${REPO_PATH}"
+  team: myteam
 
 
 services:
@@ -48,6 +49,7 @@ resources:
       definition-path: ./definitions/state_machine1.json
   lambda:
     - name: "func-get-status"
+      maintainer: "sol"
       runtime: python3.8
       arch: x86_64
       handler: application.services.service1.lambda_handlers.status_handler
@@ -57,11 +59,13 @@ resources:
       upload-ignore:
         - tests/*
     - name: "func-get-user"
+      maintainer: "sol"
       runtime: python3.8
       handler: application.services.service2.lambda_handlers.user_handler
       upload-ignore:
         - tests/*
     - name: "func-periodic-run"
+      maintainer: "sol"
       runtime: python3.8
       arch: x86_64
       handler: application.services.service3.lambda_handlers.handler
@@ -71,6 +75,7 @@ resources:
       upload-ignore:
         - tests/*
     - name: "step-func-1"
+      maintainer: "sol"
       runtime: python3.8
       arch: x86_64
       handler: application.services.service4.lambda_handlers.handler
@@ -80,6 +85,7 @@ resources:
       upload-ignore:
         - tests/*
     - name: "step-func-2"
+      maintainer: "sol"
       runtime: python3.8
       arch: x86_64
       handler: application.services.service4.lambda_handlers.handler
