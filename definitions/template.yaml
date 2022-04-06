@@ -78,6 +78,7 @@ resources:
       maintainer: "sol"
       runtime: python3.8
       arch: x86_64
+      tmp-size: 1024
       handler: application.services.service4.lambda_handlers.handler
       layers:
         - type: python-requirements
