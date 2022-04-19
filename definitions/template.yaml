@@ -17,8 +17,7 @@ services:
       rate-limit: 100
       burst-limit: 200
     vpc-endpoint-ids:
-      - 1234
-      - 5678
+      - ${AWS_LAMBDA_VPC_ID}
   http-api:
     type: AWS::ApiGateway::HttpApi
     name: "demo-http-api"

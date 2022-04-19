@@ -1,0 +1,75 @@
+serverless-framework-version: "0.2"
+
+info:
+  title: My Application
+  description: Description in Markdown.
+  version: 1.0.0
+  repo_path: "${REPO_PATH}"
+
+
+services:
+  rest-api:
+    type: AWS::ApiGateway::RestApi
+    name: "bulk_delivery"
+    swagger-path: ./definitions/swagger.yaml
+    throttling:
+      rate-limit: 100
+      burst-limit: 200
+    vpc-endpoint-ids: ${AWS_LAMBDA_VPC_IDS}
+  lambda:
+    runtime: python3.8
+    arch: x86_64
+    mem: 128
+    vpc:
+      subnet-ids: ${AWS_VPC_SUBNET_IDS}
+      sec-group-ids: ${AWS_VPC_SEC_GROUP_IDS}
+    upload-ignore:
+      - tests/*
+    layers:
+      - type: python-requirements
+        manifest: ./application/services/requirements.txt
+  eventbridge:
+    type: AWS::EventBridge
+    name: "bulk_delivery_sla"
+
+
+resources:
+  stepfunc:
+    - name: "bulk_delivery_task"
+      definition-path: ./definitions/state_machine_bulk_gen.json
+  lambda:
+    # TASK MANAGEMENT ==>
+    - name: "launch_task"
+      handler: application.services.bulk_task.lambda_handlers.launch_task_handler
+    - name: "stop_task"
+      handler: application.services.bulk_task.lambda_handlers.stop_task_handler
+    - name: "get_task"
+      handler: application.services.bulk_task.lambda_handlers.get_task_handler
+
+    # TASK STEPS ==>
+    - name: "fetch_data"
+      handler: application.services.bulk_task.lambda_handlers.fetch_data_handler
+    - name: "render_data"
+      handler: application.services.bulk_task.lambda_handlers.render_data_handler
+    - name: "validate_data"
+      handler: application.services.bulk_task.lambda_handlers.validate_data_handler
+    - name: "release_data"
+      handler: application.services.bulk_task.lambda_handlers.release_data_handler
+    - name: "send_notification"
+      handler: application.services.bulk_task.lambda_handlers.send_notification_handler
+
+    # MAIN API ==>
+    # REF: https://helpcenter.data.ai/community/s/article/data-ai-Bulk-Data-API-Documentation
+    - name: "get_latest_urls"
+      handler: application.services.bulk_api.lambda_handlers.get_urls_handler
+    - name: "redirect_data_url"
+      handler: application.services.bulk_api.lambda_handlers.redirect_handler
+
+    # VERSIONING API ==>
+    # REF: https://helpcenter.data.ai/community/s/article/Bulk-Data-API-Historical-Restatement-Versioning-Endpoints
+    - name: "list_version_changes"
+      handler: application.services.bulk_api.lambda_handlers.list_version_changes_handler
+    - name: "list_version_deliveries"
+      handler: application.services.bulk_api.lambda_handlers.list_version_deliveries_handler
+    - name: "list_latest_files"
+      handler: application.services.bulk_api.lambda_handlers.list_latest_files_handler
